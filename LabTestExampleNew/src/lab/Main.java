@@ -14,6 +14,7 @@ import static lab.Severity.MEDIUM;
  * Created by lilla on 15/01/17.
  */
 public class Main {
+    public JLabel doctorTextPublic;
 
     public static void main(String[] args) {
         Hospital hospital = new Hospital();
@@ -50,7 +51,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(doctorIDField.getText())));
+                    hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(patientIDField.getText())));
                 } catch (InvalidDataException e1) {
                     e1.printStackTrace();
                 }
@@ -63,7 +64,7 @@ public class Main {
                 Patient patient = null;
                 if (hospital.returnPatient(patientNameField.getText()) == null) {
                     try {
-                        hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(doctorIDField.getText())));
+                        patient = hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(patientIDField.getText())));
                     } catch (InvalidDataException e1) {
                         e1.printStackTrace();
                     }
@@ -72,9 +73,7 @@ public class Main {
                 }
 
                 Disease disease = new Disease(diseaseNameField.getText(), (Severity.valueOf(diseaseSeverityField.getText())));
-                if (patient != null) {
-                    patient.addDisease(disease);
-                }
+                patient.addDisease(disease);
             }
         });
         JPanel panel11 = new JPanel();
@@ -100,17 +99,47 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame doctorFrame = new JFrame("Doctors");
-                doctorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                doctorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 doctorFrame.setSize(new Dimension(480, 320));
-                JLabel doctorText = new JLabel("Doctors blablabla");
+                JLabel doctorText = new JLabel(hospital.listDoctors());
                 doctorFrame.add(doctorText);
                 doctorFrame.setContentPane(doctorText);
                 doctorFrame.setVisible(true);
             }
         });
         JButton listPatientsButton = new JButton("Patients");
+        listPatientsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame patientFrame = new JFrame("Patients");
+                patientFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                patientFrame.setSize(new Dimension(480, 320));
+                JLabel patientText = new JLabel(hospital.listPatients());
+                patientFrame.add(patientText);
+                patientFrame.setContentPane(patientText);
+                patientFrame.setVisible(true);
+            }
+        });
         JButton statisticsButton = new JButton("Statistics");
+        statisticsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame statisticsFrame = new JFrame("Statistics");
+                statisticsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                statisticsFrame.setSize(new Dimension(480, 320));
+                JLabel statisticsText = new JLabel(hospital.statistics());
+                statisticsFrame.add(statisticsText);
+                statisticsFrame.setContentPane(statisticsText);
+                statisticsFrame.setVisible(true);
+            }
+        });
         JButton startHealingButton = new JButton("Start healing!");
+        startHealingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hospital.startHealing();
+            }
+        });
         JPanel panel21 = new JPanel();
         JPanel panel22 = new JPanel();
         panel21.setLayout(new FlowLayout());
@@ -123,66 +152,66 @@ public class Main {
         panel22.add(startHealingButton);
         frame.setContentPane(panel0);
         frame.setVisible(true);
-        try {
-            Doctor doctor = new Doctor("Nagy Lilla", 1234567);
-            hospital.addDoctor(doctor);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        }
-        try {
-            Doctor doctor = new Doctor("Vizer Arnold", 2345678);
-            hospital.addDoctor(doctor);
-            System.out.println("Doctor added");
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        }
-        try {
-            Patient patient = new Patient("Acs David", 1234567);
-            Disease disease = new Disease("hules", LOW);
-            patient.addDisease(disease);
-            Disease disease1 = new Disease("hasmenes", MEDIUM);
-            patient.addDisease(disease1);
-            hospital.addPatient(patient);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        }
-        try {
-            Patient patient = new Patient("Albert Erika", 2345678);
-            Disease disease = new Disease("gyomorgorcs", LOW);
-            Disease disease1 = new Disease("fertozes", HIGH);
-            patient.addDisease(disease);
-            hospital.addPatient(patient);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        }
-        try {
-            Patient patient = new Patient("Szabo Balint", 3456789);
-            Disease disease = new Disease("fejfajas", LOW);
-            Disease disease1 = new Disease("mandulagyulladas", HIGH);
-            patient.addDisease(disease);
-            patient.addDisease(disease1);
-            patient.addDisease(new Disease("migren", MEDIUM));
-            hospital.addPatient(patient);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        }
-        hospital.listDoctors();
-        hospital.listPatients();
-        hospital.startHealing();
-        hospital.listDoctors();
-        hospital.listPatients();
-        hospital.statistics();
-        hospital.startHealing();
-        hospital.listDoctors();
-        hospital.listPatients();
-        hospital.statistics();
-        hospital.startHealing();
-        hospital.listDoctors();
-        hospital.listPatients();
-        hospital.statistics();
-        hospital.startHealing();
-        hospital.listDoctors();
-        hospital.listPatients();
-        hospital.statistics();
+//        try {
+//            Doctor doctor = new Doctor("Nagy Lilla", 1234567);
+//            hospital.addDoctor(doctor);
+//        } catch (InvalidDataException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            Doctor doctor = new Doctor("Vizer Arnold", 2345678);
+//            hospital.addDoctor(doctor);
+//            System.out.println("Doctor added");
+//        } catch (InvalidDataException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            Patient patient = new Patient("Acs David", 1234567);
+//            Disease disease = new Disease("hules", LOW);
+//            patient.addDisease(disease);
+//            Disease disease1 = new Disease("hasmenes", MEDIUM);
+//            patient.addDisease(disease1);
+//            hospital.addPatient(patient);
+//        } catch (InvalidDataException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            Patient patient = new Patient("Albert Erika", 2345678);
+//            Disease disease = new Disease("gyomorgorcs", LOW);
+//            Disease disease1 = new Disease("fertozes", HIGH);
+//            patient.addDisease(disease);
+//            hospital.addPatient(patient);
+//        } catch (InvalidDataException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            Patient patient = new Patient("Szabo Balint", 3456789);
+//            Disease disease = new Disease("fejfajas", LOW);
+//            Disease disease1 = new Disease("mandulagyulladas", HIGH);
+//            patient.addDisease(disease);
+//            patient.addDisease(disease1);
+//            patient.addDisease(new Disease("migren", MEDIUM));
+//            hospital.addPatient(patient);
+//        } catch (InvalidDataException e) {
+//            e.printStackTrace();
+//        }
+//        hospital.listDoctors();
+//        hospital.listPatients();
+//        hospital.startHealing();
+//        hospital.listDoctors();
+//        hospital.listPatients();
+//        hospital.statistics();
+//        hospital.startHealing();
+//        hospital.listDoctors();
+//        hospital.listPatients();
+//        hospital.statistics();
+//        hospital.startHealing();
+//        hospital.listDoctors();
+//        hospital.listPatients();
+//        hospital.statistics();
+//        hospital.startHealing();
+//        hospital.listDoctors();
+//        hospital.listPatients();
+//        hospital.statistics();
     }
 }

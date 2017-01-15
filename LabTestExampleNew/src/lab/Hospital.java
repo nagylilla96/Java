@@ -16,8 +16,9 @@ public class Hospital{
 		System.out.println(doctor.getName() + " " + doctor.getID());
 	}
 	
-	void addPatient(Patient patient) {
+	Patient addPatient(Patient patient) {
 		patients.add(patient);
+		return patient;
 	}
 
 	Patient returnPatient(String name) {
@@ -37,35 +38,43 @@ public class Hospital{
 		}		
 	}
 	
-	void listPatients(){
+	String listPatients(){
 		List<Patient> sortedList = new ArrayList(patients);
+		String string = "";
 		sortedList.sort(new PatientComp());
 		for (Patient i : sortedList) {
-			System.out.println(i.getName() + " " + i.getID());
+		    string = string + "<br>" + i.getName() + " " + i.getID();
 			for(Disease j: i.getDiseases())
-				System.out.println(" " + j.name);
+                    string = string + " " + j.name;
 		}
+        string = "<html><body>" + string + "</body></html>";
+        return string;
 	}
 	
-	void listDoctors() {
+	String listDoctors() {
 		List<Doctor> sortedList = new ArrayList(doctors);
 		sortedList.sort(new DoctorComp());
+		String string = "";
 		System.out.println(doctors.size());
 		for (Doctor i : sortedList) {
-			System.out.println(i.getName() + " " + i.getID() + " " + i.getNrOfDiseasesCured());
+			string = string + i.getName() + " " + i.getID() + " " + i.getNrOfDiseasesCured() + "<br>";
 		}
+		string = "<html><body>" + string + "</body></html>";
+		return string;
 	}
 	
-	void statistics() {
+	String statistics() {
 		int nrOfSickPatients = 0;
 		int nrOfDiseasesNotCured = 0;
+		String string = "";
 		for (Patient i : patients) {
 			if (i.diseases.size() != 0) {
 				nrOfSickPatients ++;
 				nrOfDiseasesNotCured += i.diseases.size();
 			}
 		}
-		System.out.println("Statistics: sick patients: " + nrOfSickPatients + " diseases not cured: " + nrOfDiseasesNotCured);
+		string += "<html><body><br>Statistics: sick patients: " + nrOfSickPatients + " diseases not cured: " + nrOfDiseasesNotCured + "</body></html>";
+		return string;
 	}
 }
 

@@ -27,7 +27,7 @@ public class Patient extends Person implements Comparable<Patient>{
 
     boolean isCured(Disease disease) {
         if (diseases.contains(disease)) {
-            return disease.cure();
+            return true;
         }
         return false;
     }
