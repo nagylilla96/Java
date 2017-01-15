@@ -46,9 +46,19 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 if (passengerMode.isSelected()) {
                     cargoItemMode.setSelected(false);
+                    if (!passengerTextField.getText().equals("Passenger name")){
+                        Compartment compartment = new Compartment(true);
+                        Ship ship = new Ship(shipTextField.getName());
+                        ship.compartments.add(compartment);
+                    }
                 }
                 else  {
                     cargoItemMode.setSelected(true);
+                    if (!cargoItemTextField.getText().equals("Cargo item name") && !profitTextField.getText().equals("Profit")){
+                        Compartment compartment = new Compartment(false);
+                        Ship ship = new Ship(shipTextField.getName());
+                        ship.compartments.add(compartment);
+                    }
                 }
             }
         });
@@ -71,20 +81,70 @@ public class Main {
         panel111.add(panel1110);
         panel111.add(panel1111);
         panel111.add(shipTextField);
-        JButton passengerButton = new JButton("Add passenger"); // TODO add actionlistener
+        JButton passengerButton = new JButton("Add passenger");
         passengerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Compartment compartment = new Compartment(passengerMode.isSelected());
+                compartment.addCarriable(new Passenger(passengerTextField.getText()));
             }
         });
-        JButton cargoItemButton = new JButton("Add cargo item"); // TODO add actionlistener
-        JButton shipButton = new JButton("Add ship"); // TODO add actionlistener
+        JButton cargoItemButton = new JButton("Add cargo item");
+        cargoItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Compartment compartment = new Compartment(passengerMode.isSelected());
+                compartment.addCarriable(new Passenger(passengerTextField.getText()));
+            }
+        });
+        JButton shipButton = new JButton("Add ship");
+        shipButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cargoItemMode.isSelected()){
+                    Ship ship = new Ship(shipTextField.getText());
+                    Compartment compartment = new Compartment(true);
+                    ship.compartments.add(compartment);
+                }
+                else {
+                    Ship ship = new Ship(shipTextField.getText());
+                    Compartment compartment = new Compartment(false);
+                    ship.compartments.add(compartment);
+                }
+            }
+        });
         panel112.add(passengerButton);
         panel112.add(cargoItemButton);
         panel112.add(shipButton);
-        JButton receiveButton = new JButton("Receive"); // TODO add actionlistener
-        JButton departButton = new JButton("Depart"); // TODO add actionlistener
-        JButton checkButton = new JButton("Check"); // TODO add actionlistener
+        JButton receiveButton = new JButton("Receive");
+        receiveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Ship ship = new Ship(shipTextField.getText());
+                shipBay.receiveShip(ship);
+            }
+        });
+        JButton departButton = new JButton("Depart");
+        departButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Ship ship = new Ship(shipTextField.getText());
+                shipBay.departShip(ship);
+            }
+        });
+        JButton checkButton = new JButton("Check");
+        checkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Ship ship = new Ship(shipTextField.getText());
+                if (shipBay.isShipInTheBay(ship)) {
+                    checkButton.setBackground(Color.GREEN);
+                }
+                else {
+                    checkButton.setBackground(Color.RED);
+                }
+            }
+        });
         panel12.add(receiveButton);
         panel12.add(departButton);
         panel12.add(checkButton);

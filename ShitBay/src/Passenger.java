@@ -6,7 +6,7 @@ import java.util.*;
 public class Passenger implements Carriable {
     private final String name;
 
-    private Passenger(String name) {
+    public Passenger(String name) {
         this.name = name;
     }
 

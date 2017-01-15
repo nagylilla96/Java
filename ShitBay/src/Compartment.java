@@ -20,9 +20,22 @@ public class Compartment {
             this.passenger = false;
         }
     }
+    public Compartment() {
+        this(false);
+    }
 
     int getProfit() {
         this.profit = carriables.size() * COMPARTMENT_PRICE;
         return this.profit;
+    }
+
+    int addCarriable(Object o) {
+        if (this.passenger) {
+            if (carriables.add((Passenger) o)) return 1;
+        }
+        else {
+            if (carriables.add((CargoItem) o)) return 1;
+        }
+        return 0;
     }
 }
