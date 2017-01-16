@@ -68,4 +68,8 @@ public class Compartment {
         }
         return null;
     }
+
+    boolean isPassenger() {
+        return this.passenger;
+    }
 }

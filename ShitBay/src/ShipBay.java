@@ -11,13 +11,13 @@ public class ShipBay {
     }
 
     void receiveShip(Ship ship) {
-        if (ship.isInTheBay) {
+        if (!ship.isInTheBay) {
             ship.isInTheBay = true;
         }
     }
 
     void departShip(Ship ship) {
-        if (!ship.isInTheBay) {
+        if (ship.isInTheBay) {
             ship.isInTheBay = false;
         }
     }
@@ -33,9 +33,9 @@ public class ShipBay {
         String string = "";
         List<Ship> sortedList = new LinkedList<>(ships);
         sortedList.sort(new ShipNameComp());
-        for (Ship i:ships) {
+        for (Ship i:sortedList) {
             if (i.isInTheBay) {
-                string += i.getName() + " " + i.getName() + "<br>";
+                string += i.getName() + " " + i.getProfit() + "<br>";
             }
         }
         string = "<html><body>" + string + "</body></html>";
@@ -46,7 +46,7 @@ public class ShipBay {
         String string = "";
         List<Ship> sortedList = new LinkedList<>(ships);
         sortedList.sort(new ShipProfitComp());
-        for (Ship i: ships) {
+        for (Ship i: sortedList) {
             if (i.isInTheBay) {
                 string += i.getName() + " " + i.getProfit() + "<br>";
             }
@@ -78,6 +78,10 @@ public class ShipBay {
             }
         }
         return null;
+    }
+
+    boolean getShipType(Ship ship) {
+        return ship.getShipType(ship);
     }
 }
 

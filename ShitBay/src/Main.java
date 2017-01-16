@@ -46,19 +46,17 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 if (passengerMode.isSelected()) {
                     cargoItemMode.setSelected(false);
-                    if (!passengerTextField.getText().equals("Passenger name")){
-                        Compartment compartment = new Compartment(true);
-                        Ship ship = new Ship(shipTextField.getName());
-                        ship.compartments.add(compartment);
+                    if (!passengerTextField.getText().equals("Passenger name") || !cargoItemTextField.getText().equals("Cargo item name") || !profitTextField.getText().equals("Profit")){
+                        shipTextField.setText("Please input a new ship name!");
+                        System.out.println("change");
                     }
                 }
                 else  {
                     cargoItemMode.setSelected(true);
-                    if (!cargoItemTextField.getText().equals("Cargo item name") && !profitTextField.getText().equals("Profit")){
-                        Compartment compartment = new Compartment(false);
-                        Ship ship = new Ship(shipTextField.getName());
-                        ship.compartments.add(compartment);
+                    if (!passengerTextField.getText().equals("Passenger name") || !cargoItemTextField.getText().equals("Cargo item name") || !profitTextField.getText().equals("Profit")){
+                        shipTextField.setText("Please input a new ship name!");
                     }
+                    System.out.println("change");
                 }
             }
         });
@@ -86,23 +84,29 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Ship ship;
-                if (shipBay.returnShip(shipTextField.getText()) == null) {
-                    ship = shipBay.addShip(new Ship(shipTextField.getText()));
+                if (!shipTextField.getText().equals("Please input a new ship name!")) {
+                    if (shipBay.returnShip(shipTextField.getText()) == null) {
+                        ship = shipBay.addShip(new Ship(shipTextField.getText()));
+                    }
+                    else {
+                        ship = shipBay.returnShip(shipTextField.getText());
+                    }
+                    Compartment compartment = new Compartment(passengerMode.isSelected());
+                    if (passengerMode.isSelected()) {
+                        compartment.addCarriable(new Passenger(passengerTextField.getText()));
+                    }
+                    else {
+                        compartment.addCarriable(new CargoItem(cargoItemTextField.getText(), Integer.parseInt(profitTextField.getText())));
+                    }
+                    if (ship == null) {
+                        System.out.println("Ship is null");
+                    }
+                    ship.addCompartment(compartment);
                 }
                 else {
-                    ship = shipBay.returnShip(shipTextField.getText());
+                    JOptionPane.showMessageDialog(mainFrame, "Please change the ship's name!");
                 }
-                Compartment compartment = new Compartment(passengerMode.isSelected());
-                if (passengerMode.isSelected()) {
-                    compartment.addCarriable(new Passenger(passengerTextField.getText()));
-                }
-                else {
-                    compartment.addCarriable(new CargoItem(cargoItemTextField.getText(), Integer.parseInt(profitTextField.getText())));
-                }
-                if (ship == null) {
-                    System.out.println("Ship is null");
-                }
-                ship.addCompartment(compartment);
+
             }
         });
         panel112.add(addButton);
@@ -111,6 +115,10 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Ship ship = shipBay.returnShip(shipTextField.getText());
+                System.out.println(shipTextField.getText());
+                if (ship == null) {
+                    System.out.println("Ship is null");
+                }
                 shipBay.receiveShip(ship);
             }
         });

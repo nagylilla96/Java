@@ -34,6 +34,17 @@ public class Ship {
         return null;
     }
 
+    boolean getShipType(Ship ship) {
+        if (compartments.iterator().hasNext()) {
+            Compartment compartment = compartments.iterator().next();
+            if (compartment.isPassenger()) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     String summary() {
         String string = "Name: " + this.name + " compartments: " + compartments.size() + " profit: " + getProfit();
         return string;
