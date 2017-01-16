@@ -12,6 +12,7 @@ public class Ship {
     public Ship(String name) {
         this.name = name;
         this.isInTheBay = false;
+        System.out.println("Ship added");
     }
 
     String getName() {
@@ -19,10 +20,18 @@ public class Ship {
     }
 
     Integer getProfit() {
+        profit = 0;
         for (Compartment i: compartments) {
             profit += i.getProfit();
         }
         return profit;
+    }
+
+    Compartment addCompartment(Compartment compartment) {
+        if (compartments.add(compartment)) {
+            return compartment;
+        }
+        return null;
     }
 
     String summary() {

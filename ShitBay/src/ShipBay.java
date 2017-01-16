@@ -58,10 +58,26 @@ public class ShipBay {
     String summaries() {
         String string = "<html><body>" ;
         for (Ship i:ships) {
-            string  = i.summary() + "<br>";
+            string  += i.summary() + "<br>";
         }
         string += "</body></html>";
         return string;
+    }
+
+    Ship addShip(Ship ship) {
+        if (ships.add(ship)) {
+            return ship;
+        }
+        return null;
+    }
+
+    Ship returnShip(String name) {
+        for(Ship i:ships) {
+            if (i.getName().equals(name)) {
+                return i;
+            }
+        }
+        return null;
     }
 }
 

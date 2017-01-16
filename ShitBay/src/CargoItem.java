@@ -10,6 +10,15 @@ public class CargoItem implements Carriable {
     public CargoItem(String name, int profit) {
         this.name = name;
         this.profit = profit;
+        System.out.println("CargoItem added");
+    }
+
+    String getName(){
+        return this.name;
+    }
+
+    int getProfit() {
+        return this.profit;
     }
 
     public CargoItem() {

@@ -81,46 +81,36 @@ public class Main {
         panel111.add(panel1110);
         panel111.add(panel1111);
         panel111.add(shipTextField);
-        JButton passengerButton = new JButton("Add passenger");
-        passengerButton.addActionListener(new ActionListener() {
+        JButton addButton = new JButton("Add");
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Compartment compartment = new Compartment(passengerMode.isSelected());
-                compartment.addCarriable(new Passenger(passengerTextField.getText()));
-            }
-        });
-        JButton cargoItemButton = new JButton("Add cargo item");
-        cargoItemButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Compartment compartment = new Compartment(passengerMode.isSelected());
-                compartment.addCarriable(new Passenger(passengerTextField.getText()));
-            }
-        });
-        JButton shipButton = new JButton("Add ship");
-        shipButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (cargoItemMode.isSelected()){
-                    Ship ship = new Ship(shipTextField.getText());
-                    Compartment compartment = new Compartment(true);
-                    ship.compartments.add(compartment);
+                Ship ship;
+                if (shipBay.returnShip(shipTextField.getText()) == null) {
+                    ship = shipBay.addShip(new Ship(shipTextField.getText()));
                 }
                 else {
-                    Ship ship = new Ship(shipTextField.getText());
-                    Compartment compartment = new Compartment(false);
-                    ship.compartments.add(compartment);
+                    ship = shipBay.returnShip(shipTextField.getText());
                 }
+                Compartment compartment = new Compartment(passengerMode.isSelected());
+                if (passengerMode.isSelected()) {
+                    compartment.addCarriable(new Passenger(passengerTextField.getText()));
+                }
+                else {
+                    compartment.addCarriable(new CargoItem(cargoItemTextField.getText(), Integer.parseInt(profitTextField.getText())));
+                }
+                if (ship == null) {
+                    System.out.println("Ship is null");
+                }
+                ship.addCompartment(compartment);
             }
         });
-        panel112.add(passengerButton);
-        panel112.add(cargoItemButton);
-        panel112.add(shipButton);
+        panel112.add(addButton);
         JButton receiveButton = new JButton("Receive");
         receiveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ship ship = new Ship(shipTextField.getText());
+                Ship ship = shipBay.returnShip(shipTextField.getText());
                 shipBay.receiveShip(ship);
             }
         });
@@ -128,7 +118,7 @@ public class Main {
         departButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ship ship = new Ship(shipTextField.getText());
+                Ship ship = shipBay.returnShip(shipTextField.getText());
                 shipBay.departShip(ship);
             }
         });
@@ -136,7 +126,7 @@ public class Main {
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ship ship = new Ship(shipTextField.getText());
+                Ship ship = shipBay.returnShip(shipTextField.getText());
                 if (shipBay.isShipInTheBay(ship)) {
                     checkButton.setBackground(Color.GREEN);
                 }
@@ -148,9 +138,45 @@ public class Main {
         panel12.add(receiveButton);
         panel12.add(departButton);
         panel12.add(checkButton);
-        JButton sortedByNameButton = new JButton("Ships sorted by name"); // TODO add actionlistener
-        JButton sortedByProfitButton = new JButton("Ships sorted by profit"); // TODO add actionlistener
-        JButton summariesButton = new JButton("Summaries"); // TODO add actionlistener
+        JButton sortedByNameButton = new JButton("Ships sorted by name");
+        sortedByNameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame sortedFrame = new JFrame("Ships sorted by name");
+                sortedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                sortedFrame.setSize(new Dimension(480, 320));
+                JLabel sortedText = new JLabel(shipBay.shipsSortedByName());
+                sortedFrame.add(sortedText);
+                sortedFrame.setContentPane(sortedText);
+                sortedFrame.setVisible(true);
+            }
+        });
+        JButton sortedByProfitButton = new JButton("Ships sorted by profit");
+        sortedByProfitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame sortedFrame = new JFrame("Ships sorted by name");
+                sortedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                sortedFrame.setSize(new Dimension(480, 320));
+                JLabel sortedText = new JLabel(shipBay.shipsSortedByProfit());
+                sortedFrame.add(sortedText);
+                sortedFrame.setContentPane(sortedText);
+                sortedFrame.setVisible(true);
+            }
+        });
+        JButton summariesButton = new JButton("Summaries");
+        summariesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame sortedFrame = new JFrame("Ships sorted by name");
+                sortedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                sortedFrame.setSize(new Dimension(480, 320));
+                JLabel sortedText = new JLabel(shipBay.summaries());
+                sortedFrame.add(sortedText);
+                sortedFrame.setContentPane(sortedText);
+                sortedFrame.setVisible(true);
+            }
+        });
         panel13.add(sortedByNameButton);
         panel13.add(sortedByProfitButton);
         panel13.add(summariesButton);
