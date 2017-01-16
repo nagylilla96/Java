@@ -8,6 +8,7 @@ public class Ship {
     protected String name;
     protected Integer profit = 0;
     protected boolean isInTheBay;
+    protected boolean passenger;
 
     public Ship(String name) {
         this.name = name;
@@ -43,6 +44,17 @@ public class Ship {
             return false;
         }
         return false;
+    }
+
+    void setShipType() {
+        if(compartments.iterator().hasNext()) {
+            if(compartments.iterator().next().isPassenger()) {
+                this.passenger = true;
+            }
+            else {
+                this.passenger = false;
+            }
+        }
     }
 
     String summary() {

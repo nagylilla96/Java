@@ -55,8 +55,8 @@ public class Main {
                     cargoItemMode.setSelected(true);
                     if (!passengerTextField.getText().equals("Passenger name") || !cargoItemTextField.getText().equals("Cargo item name") || !profitTextField.getText().equals("Profit")){
                         shipTextField.setText("Please input a new ship name!");
+                        System.out.println("change");
                     }
-                    System.out.println("change");
                 }
             }
         });
@@ -65,9 +65,17 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 if (cargoItemMode.isSelected()){
                     passengerMode.setSelected(false);
+                    if (!passengerTextField.getText().equals("Passenger name") || !cargoItemTextField.getText().equals("Cargo item name") || !profitTextField.getText().equals("Profit")){
+                        shipTextField.setText("Please input a new ship name!");
+                        System.out.println("change");
+                    }
                 }
                 else {
                     passengerMode.setSelected(true);
+                    if (!passengerTextField.getText().equals("Passenger name") || !cargoItemTextField.getText().equals("Cargo item name") || !profitTextField.getText().equals("Profit")){
+                        shipTextField.setText("Please input a new ship name!");
+                        System.out.println("change");
+                    }
                 }
             }
         });
@@ -87,6 +95,7 @@ public class Main {
                 if (!shipTextField.getText().equals("Please input a new ship name!")) {
                     if (shipBay.returnShip(shipTextField.getText()) == null) {
                         ship = shipBay.addShip(new Ship(shipTextField.getText()));
+
                     }
                     else {
                         ship = shipBay.returnShip(shipTextField.getText());
