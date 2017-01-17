@@ -21,21 +21,27 @@ public class IOFile {
         if (in != null) {
             in.close();
         }
-        if (out != null) {
-            out.close();
-        }
+
         BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
         String line;
         while ((line = br.readLine()) != null) {
             System.out.println(line);
+            bw.write(line);
+            bw.newLine();
         }
         Scanner scanner = new Scanner(new File("input.txt"));
+        PrintStream outp = new PrintStream(new FileOutputStream("output.txt"));
         List<String> list = new ArrayList<String>();
         while (scanner.hasNext()) {
             list.add(scanner.next());
         }
         for (String i:list) {
             System.out.println(i);
+            outp.println(i);
+        }
+        if (out != null) {
+            out.close();
         }
     }
 }
