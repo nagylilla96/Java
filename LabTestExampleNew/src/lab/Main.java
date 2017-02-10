@@ -16,6 +16,7 @@ import static lab.Severity.MEDIUM;
 public class Main {
     public JLabel doctorTextPublic;
 
+
     public static void main(String[] args) {
         Hospital hospital = new Hospital();
         JFrame frame = new JFrame("Hospital");
@@ -36,46 +37,8 @@ public class Main {
         JTextField patientIDField = new JTextField("XXXXXXX");
         JTextField diseaseSeverityField = new JTextField("XXXXXX");
         JButton addDoctorButton = new JButton("Add doctor");
-        addDoctorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    hospital.addDoctor(new Doctor(doctorNameField.getText(), Integer.parseInt(doctorIDField.getText())));
-                } catch (InvalidDataException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
         JButton addPatientButton = new JButton("Add patient");
-        addPatientButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(patientIDField.getText())));
-                } catch (InvalidDataException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
         JButton addDiseaseButton = new JButton("Add disease");
-        addDiseaseButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Patient patient = null;
-                if (hospital.returnPatient(patientNameField.getText()) == null) {
-                    try {
-                        patient = hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(patientIDField.getText())));
-                    } catch (InvalidDataException e1) {
-                        e1.printStackTrace();
-                    }
-                }else {
-                    patient = hospital.returnPatient(patientNameField.getText());
-                }
-
-                Disease disease = new Disease(diseaseNameField.getText(), (Severity.valueOf(diseaseSeverityField.getText())));
-                patient.addDisease(disease);
-            }
-        });
         JPanel panel11 = new JPanel();
         JPanel panel12 = new JPanel();
         JPanel panel13 = new JPanel();
@@ -140,6 +103,46 @@ public class Main {
                 hospital.startHealing();
             }
         });
+
+        class Action implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == addDoctorButton) {
+                    try {
+                        hospital.addDoctor(new Doctor(doctorNameField.getText(), Integer.parseInt(doctorIDField.getText())));
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                if (e.getSource() == addPatientButton) {
+                    try {
+                        hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(patientIDField.getText())));
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                Patient patient = null;
+                if (hospital.returnPatient(patientNameField.getText()) == null) {
+                    try {
+                        patient = hospital.addPatient(new Patient(patientNameField.getText(), Integer.parseInt(patientIDField.getText())));
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    }
+                }else {
+                    patient = hospital.returnPatient(patientNameField.getText());
+                }
+
+                Disease disease = new Disease(diseaseNameField.getText(), (Severity.valueOf(diseaseSeverityField.getText())));
+                patient.addDisease(disease);
+            }
+        }
+
+        Action action = new Action();
+        addDoctorButton.addActionListener(action);
+        addPatientButton.addActionListener(action);
+        addDiseaseButton.addActionListener(action);
+
         JPanel panel21 = new JPanel();
         JPanel panel22 = new JPanel();
         panel21.setLayout(new FlowLayout());
@@ -153,4 +156,6 @@ public class Main {
         frame.setContentPane(panel0);
         frame.setVisible(true);
     }
+
+
 }
